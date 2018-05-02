@@ -1,6 +1,12 @@
 package com.example.benktesh.popularmovies;
 
+import android.net.Uri;
+
+import com.example.benktesh.popularmovies.Util.NetworkUtilities;
+
 import org.junit.Test;
+
+import java.net.URL;
 
 import static org.junit.Assert.*;
 
@@ -14,4 +20,5 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
 }
