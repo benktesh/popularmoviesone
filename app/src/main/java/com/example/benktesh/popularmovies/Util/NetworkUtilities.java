@@ -1,6 +1,7 @@
 package com.example.benktesh.popularmovies.Util;
 
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,17 +32,28 @@ public class NetworkUtilities {
      */
     public static URL buildPosterUrl(String poster) {
 
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon().appendPath(WIDTH).appendPath("/n").appendPath(poster)
-                .build();
+        String finalPath = BASE_URL  + WIDTH + "//n" + poster;
+        Uri builtUri = Uri.parse(finalPath);
 
+        return getUrl(builtUri);
+
+    }
+
+    @Nullable
+    private static URL getUrl(Uri builtUri) {
         URL url = null;
         try {
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         return url;
+    }
+
+    public static URL buildDataUrl(String apiKey)
+    {
+        Uri builtUri = Uri.parse(BASE_URL);
+        return getUrl(builtUri);
     }
 
     /**
