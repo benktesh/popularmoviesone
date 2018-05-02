@@ -50,9 +50,10 @@ public class NetworkUtilities {
         return url;
     }
 
-    public static URL buildDataUrl(String apiKey)
+    public static URL buildDataUrl(String apiKey, String sort)
     {
-        Uri builtUri = Uri.parse(BASE_URL);
+        String finalPath = "http://api.themoviedb.org/3/movie/" + sort + "?api_key=" + apiKey;
+        Uri builtUri = Uri.parse(finalPath);
         return getUrl(builtUri);
     }
 
