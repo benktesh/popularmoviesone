@@ -4,20 +4,44 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.benktesh.popularmovies.Util.NetworkUtilities;
 
+import java.net.URL;
+
+public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener{
+
+    private static final int NUM_LIST_ITEMS = 100;
+    private MovieAdapter mMovieAdapter;
+    private RecyclerView mMovieItemList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //get reference to recyclerview
+        mMovieItemList = (RecyclerView) findViewById(R.id.rv_movies);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        mMovieItemList.setLayoutManager(layoutManager);
+
+        mMovieItemList.setHasFixedSize(true);
+
+        mMovieAdapter = new MovieAdapter(NUM_LIST_ITEMS, this);
+
+
+        mMovieItemList.setAdapter(mMovieAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -42,10 +66,17 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        String key = (String) getResources().getText(R.string.api_key);
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort_most_popular) {
 
+            URL url = NetworkUtilities.buildPosterUrl("BNZadXqJSdt05SHLqgT0HuC5Gm.jpg");
+
+
+            url = NetworkUtilities.buildDataUrl(key, "popular");
+
+            Log.d("", "onOptionsItemSelected: " + url);
             Toast.makeText(this, "most popular", Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -55,5 +86,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void OnListItemClick(int clickedItemIndex) {
+        Toast.makeText(this, " " + clickedItemIndex, Toast.LENGTH_SHORT).show();
     }
 }
