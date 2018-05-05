@@ -1,4 +1,4 @@
-package com.example.benktesh.popularmovies.Model;
+package com.benktesh.popularmovies.Model;
 
 public class SpokenLanguage {
     public String iso6391;

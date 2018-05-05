@@ -1,10 +1,9 @@
-package com.example.benktesh.popularmovies.Util;
+package com.benktesh.popularmovies.Util;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.benktesh.popularmovies.Model.Movie;
-import com.example.benktesh.popularmovies.Model.MovieItem;
+import com.benktesh.popularmovies.Model.MovieItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;

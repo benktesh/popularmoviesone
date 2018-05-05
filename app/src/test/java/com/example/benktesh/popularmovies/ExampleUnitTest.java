@@ -1,12 +1,6 @@
 package com.example.benktesh.popularmovies;
 
-import android.net.Uri;
-
-import com.example.benktesh.popularmovies.Util.NetworkUtilities;
-
 import org.junit.Test;
-
-import java.net.URL;
 
 import static org.junit.Assert.*;
 

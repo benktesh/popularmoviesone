@@ -1,10 +1,9 @@
-package com.example.benktesh.popularmovies.Model;
+package com.benktesh.popularmovies.Model;
 
-public class ProductionCompany {
+public class Geners {
+
     public int id;
-    public String logoPath;
     public String name;
-    public String originCountry;
 
     public int getId() {
         return id;

@@ -1,4 +1,4 @@
-package com.example.benktesh.popularmovies.Util;
+package com.benktesh.popularmovies.Util;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;

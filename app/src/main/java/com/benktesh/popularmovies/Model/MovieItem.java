@@ -1,5 +1,4 @@
-package com.example.benktesh.popularmovies.Model;
-import java.util.List;
+package com.benktesh.popularmovies.Model;
 
 /**
  * Created by Benktesh on 5/4/18.

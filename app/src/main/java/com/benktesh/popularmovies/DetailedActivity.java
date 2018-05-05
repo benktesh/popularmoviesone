@@ -1,4 +1,4 @@
-package com.example.benktesh.popularmovies;
+package com.benktesh.popularmovies;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.benktesh.popularmovies.Model.MovieItem;
-import com.example.benktesh.popularmovies.Util.JsonUtils;
+import com.benktesh.popularmovies.Model.MovieItem;
+import com.example.benktesh.popularmovies.R;
 import com.squareup.picasso.Picasso;
 
 public class DetailedActivity extends AppCompatActivity {
