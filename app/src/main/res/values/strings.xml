@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">popularmovies</string>
+    <string name="app_name">Popular Movies</string>
     <string name="action_settings">Settings</string>
     <string name="sort_most_popular">Most Popular</string>
     <string name="sort_top_rated">Top Rated</string>
     <string name="fontfamily">monospace</string>
+    <string name="detail_error_message">Movie data could not be found.</string>
+    <string name="movie_poster_content">Place holder for image content</string>
 </resources>

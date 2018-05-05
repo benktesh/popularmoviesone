@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.benktesh.popularmovies.Model.Movie;
+import com.example.benktesh.popularmovies.Model.MovieItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,11 +17,11 @@ public class JsonUtils {
 
     private static final String TAG = JsonUtils.class.getSimpleName();
 
-    public static Movie parseSandwichJson(String json) {
+    public static MovieItem parseMovieJson(String json) {
         try {
 
 
-            Movie movie = new Movie();
+            MovieItem movie = new MovieItem();
 
             JSONObject object = new JSONObject(json);
 
@@ -36,7 +37,7 @@ public class JsonUtils {
 
             return movie;
         } catch (Exception ex) {
-            Log.e(TAG + "parseSandwichJson", "Could not parse json " + json);
+            Log.e(TAG + "parseMovieJson", "Could not parse json " + json);
             return null;
         }
     }

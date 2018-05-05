@@ -1,5 +1,7 @@
 package com.example.benktesh.popularmovies;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     private static final int NUM_LIST_ITEMS = 100;
     private MovieAdapter mMovieAdapter;
     private RecyclerView mMovieItemList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
             Log.d("", "onOptionsItemSelected: " + url);
             Toast.makeText(this, "most popular", Toast.LENGTH_SHORT).show();
+
             return true;
         }
         if(id == R.id.action_sort_top_rated){
@@ -92,5 +96,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     @Override
     public void OnListItemClick(int clickedItemIndex) {
         Toast.makeText(this, " " + clickedItemIndex, Toast.LENGTH_SHORT).show();
+
+        Intent myIntent = new Intent(this, DetailedActivity.class);
+        myIntent.putExtra(DetailedActivity.EXTRA_INDEX, 1);
+        startActivity(myIntent);
+
+
     }
 }
