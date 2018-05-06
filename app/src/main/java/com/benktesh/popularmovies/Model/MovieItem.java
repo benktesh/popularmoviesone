@@ -1,9 +1,12 @@
 package com.benktesh.popularmovies.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Benktesh on 5/4/18.
  */
-public class MovieItem {
+public class MovieItem implements Parcelable {
 /* We need followoing attributes
     original title
     movie poster image thumbnail
@@ -18,6 +21,26 @@ public class MovieItem {
     public String posterPath;
     public String releaseDate;
     public double voteAverage;
+
+    protected MovieItem(Parcel in) {
+        originalTitle = in.readString();
+        overview = in.readString();
+        posterPath = in.readString();
+        releaseDate = in.readString();
+        voteAverage = in.readDouble();
+    }
+
+    public static final Creator<MovieItem> CREATOR = new Creator<MovieItem>() {
+        @Override
+        public MovieItem createFromParcel(Parcel in) {
+            return new MovieItem(in);
+        }
+
+        @Override
+        public MovieItem[] newArray(int size) {
+            return new MovieItem[size];
+        }
+    };
 
     public String getOverview() {
         return overview;
@@ -59,6 +82,19 @@ public class MovieItem {
         this.voteAverage = voteAverage;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(originalTitle);
+        dest.writeString(overview);
+        dest.writeString(posterPath);
+        dest.writeString(releaseDate);
+        dest.writeDouble(voteAverage);
+    }
 }
 
 
