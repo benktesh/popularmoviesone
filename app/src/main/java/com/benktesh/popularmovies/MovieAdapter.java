@@ -8,7 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.benktesh.popularmovies.Model.MovieItem;
 import com.example.benktesh.popularmovies.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Benktesh on 5/2/18.
@@ -16,8 +20,9 @@ import com.example.benktesh.popularmovies.R;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private static final String TAG = MovieAdapter.class.getSimpleName();
-    private int mNumberItems;
     private static int viewHolderCount;
+    private List<MovieItem> mMovieItemList;
+    private MovieItem movieItem;
 
     final private ListItemClickListener mOnClickListener;
 
@@ -27,8 +32,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
 
-    public MovieAdapter(int numberItems, ListItemClickListener listener) {
-        mNumberItems = numberItems;
+    public MovieAdapter(List<MovieItem> movieItemList, ListItemClickListener listener) {
+
+        if(movieItemList == null)
+        {
+            mMovieItemList = new ArrayList<MovieItem>();
+        }
+        mMovieItemList = movieItemList;
         viewHolderCount = 0;
         mOnClickListener = listener;
     }
@@ -51,7 +61,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public int getItemCount() {
-        return mNumberItems;
+        return mMovieItemList.size();
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -67,7 +77,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         }
 
         void bind(int listIndex) {
-            listMovieItemView.setText(String.valueOf(listIndex));
+
+            movieItem = mMovieItemList.get(listIndex);
+
+            listMovieItemView.setText(String.valueOf(movieItem.getOriginalTitle()));
         }
 
         @Override

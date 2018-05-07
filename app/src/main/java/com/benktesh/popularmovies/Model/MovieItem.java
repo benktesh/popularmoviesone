@@ -22,6 +22,17 @@ public class MovieItem implements Parcelable {
     public String releaseDate;
     public double voteAverage;
 
+    public MovieItem(String originalTitle, String overview,
+                     String posterPath, String releaseDate, double voteAverage){
+    this.originalTitle = originalTitle;
+    this.overview = overview;
+    this.posterPath = posterPath;
+    this.releaseDate = releaseDate;
+    this.voteAverage = voteAverage;
+    }
+
+    public MovieItem() {}
+
     protected MovieItem(Parcel in) {
         originalTitle = in.readString();
         overview = in.readString();

@@ -2,6 +2,7 @@ package com.benktesh.popularmovies;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.benktesh.popularmovies.Model.MovieItem;
 import com.example.benktesh.popularmovies.R;
 import com.benktesh.popularmovies.Util.NetworkUtilities;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener{
 
@@ -40,7 +43,26 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
         mMovieItemList.setHasFixedSize(true);
 
-        mMovieAdapter = new MovieAdapter(NUM_LIST_ITEMS, this);
+        /*
+            Call api and get list of movies.
+            Make this separte function so that we can refresh this list (such as in the even tof sort order change
+            The function should handle network errors.
+            Make adapter take the list instead.
+
+
+        */
+
+        ArrayList<MovieItem> movieItems = new ArrayList<MovieItem>();
+
+        for(int i = 0; i < 10; i++){
+
+            MovieItem m = new MovieItem("Original Title", "overview", "Path " + i , "2018/10/12", 5.0);
+
+            movieItems.add(m);
+
+        }
+
+        mMovieAdapter = new MovieAdapter(movieItems, this);
 
 
         mMovieItemList.setAdapter(mMovieAdapter);
