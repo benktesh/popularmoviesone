@@ -12,29 +12,42 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class JsonUtils {
 
     private static final String TAG = JsonUtils.class.getSimpleName();
 
-    public static MovieItem parseMovieJson(String json) {
+    public static List<MovieItem> parseMovieJson(String json) {
         try {
 
-
-            MovieItem movie = new MovieItem();
-
+            MovieItem movie;
             JSONObject object = new JSONObject(json);
 
-            //name is complex object
-            JSONObject nameObject = object.optJSONObject("name");
-            //sandwich.setMainName(nameObject.optString("mainName", "Not Found"));
-            //sandwich.setAlsoKnownAs(getStringsFromArray(nameObject.optString("alsoKnownAs", "[\"\"]")));
+            JSONArray resultsArray = new JSONArray(object.optString("results",
+                    "[\"\"]"));
 
-            //sandwich.setPlaceOfOrigin(object.optString("placeOfOrigin", "Unknown"));
-            //sandwich.setDescription(object.optString("description", "Not Found"));
-            //sandwich.setImage(object.getString("image"));
-            //sandwich.setIngredients(getStringsFromArray(object.optString("ingredients", "[\"\"]")));
+            System.out.println(resultsArray.toString());
 
-            return movie;
+            ArrayList<MovieItem> items = new ArrayList<>();
+            for (int i = 0; i < resultsArray.length(); i++) {
+                String current = resultsArray.optString(i, "");
+
+                JSONObject movieJson = new JSONObject(current);
+
+                String overview = movieJson.optString("overview", "Not Available");
+                String original_title = movieJson.optString("original_title",
+                        "Not Available");
+                String poster_path = movieJson
+                        .optString("poster_path", "Not Available");
+                String release_date = movieJson.optString("release_date",
+                        "Not Available");
+                String vote_count = movieJson.optString("vote_count", "Not Available");
+                movie = new MovieItem(original_title, overview, poster_path, release_date, Double.parseDouble(vote_count));
+                items.add(movie);
+
+            }
+
+            return items;
         } catch (Exception ex) {
             Log.e(TAG + "parseMovieJson", "Could not parse json " + json);
             return null;

@@ -2,6 +2,7 @@ package com.benktesh.popularmovies.Util;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import java.util.Scanner;
  */
 
 public class NetworkUtilities {
+    private static final String TAG = NetworkUtilities.class.getSimpleName();
 
     final static String BASE_URL = "http://image.tmdb.org/t/p/";
 
@@ -30,12 +32,12 @@ public class NetworkUtilities {
      * @param poster The file for poster.
      * @return The URL to use to query the GitHub.
      */
-    public static URL buildPosterUrl(String poster) {
+    public static String buildPosterUrl(String poster) {
 
-        String finalPath = BASE_URL  + WIDTH + "//n" + poster;
-        Uri builtUri = Uri.parse(finalPath);
+        String finalPath = BASE_URL + WIDTH + "/" + poster;
+        Log.d(TAG, "Building PosterURL (" + poster + ") Final: " + finalPath);
 
-        return getUrl(builtUri);
+        return finalPath;
 
     }
 
@@ -50,8 +52,7 @@ public class NetworkUtilities {
         return url;
     }
 
-    public static URL buildDataUrl(String apiKey, String sort)
-    {
+    public static URL buildDataUrl(String apiKey, String sort) {
         String finalPath = "http://api.themoviedb.org/3/movie/" + sort + "?api_key=" + apiKey;
         Uri builtUri = Uri.parse(finalPath);
         return getUrl(builtUri);

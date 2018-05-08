@@ -6,11 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.benktesh.popularmovies.Model.MovieItem;
+import com.benktesh.popularmovies.Util.NetworkUtilities;
 import com.example.benktesh.popularmovies.R;
+import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,16 +27,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private static int viewHolderCount;
     private List<MovieItem> mMovieItemList;
     private MovieItem movieItem;
+    private Context mContext;
 
     final private ListItemClickListener mOnClickListener;
 
 
     public interface ListItemClickListener {
-        void OnListItemClick(int clickedItemIndex);
+        void OnListItemClick(int clickedItemIndex, MovieItem movieItem);
     }
 
 
-    public MovieAdapter(List<MovieItem> movieItemList, ListItemClickListener listener) {
+    public MovieAdapter(List<MovieItem> movieItemList, ListItemClickListener listener, Context context) {
 
         if(movieItemList == null)
         {
@@ -41,6 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         mMovieItemList = movieItemList;
         viewHolderCount = 0;
         mOnClickListener = listener;
+        mContext = context;
     }
 
     @Override
@@ -66,13 +72,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView listMovieItemView;
+        //TextView listMovieItemView;
+        ImageView listMovieItemView;
 
 
         public MovieViewHolder(View itemView) {
             super(itemView);
 
-            listMovieItemView = (TextView) itemView.findViewById(R.id.tv_item_number);
+            listMovieItemView = (ImageView) itemView.findViewById(R.id.iv_item_poster);
             itemView.setOnClickListener(this);
         }
 
@@ -80,13 +87,30 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
             movieItem = mMovieItemList.get(listIndex);
 
-            listMovieItemView.setText(String.valueOf(movieItem.getOriginalTitle()));
+            //listMovieItemView.setText(String.valueOf(movieItem.getOriginalTitle()));
+            listMovieItemView = (ImageView) itemView.findViewById(R.id.iv_item_poster);
+
+            String posterPathURL = NetworkUtilities.buildPosterUrl(movieItem.getPosterPath());
+            Log.d(TAG, "Poster URL: " + posterPathURL);
+            try {
+
+
+                Picasso.with(mContext)
+                        .load(posterPathURL)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.mipmap.ic_launcher)
+                        .into(listMovieItemView);
+            }
+            catch (Exception ex) {
+                Log.d(TAG, ex.getMessage());
+            }
+
         }
 
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
-            mOnClickListener.OnListItemClick(clickedPosition);
+            mOnClickListener.OnListItemClick(clickedPosition, mMovieItemList.get(clickedPosition));
             Log.d(TAG, "Done with OnClick");
         }
     }

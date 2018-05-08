@@ -3,6 +3,7 @@ package com.benktesh.popularmovies;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,17 +17,25 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.benktesh.popularmovies.Model.MovieItem;
+import com.benktesh.popularmovies.Util.JsonUtils;
 import com.example.benktesh.popularmovies.R;
 import com.benktesh.popularmovies.Util.NetworkUtilities;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener{
+public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener {
 
     private static final int NUM_LIST_ITEMS = 100;
     private MovieAdapter mMovieAdapter;
     private RecyclerView mMovieItemList;
+    private static String SORT_POPULAR = "popular";
+    private static String SORT_TOP_RATED = "top rated";
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +61,29 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
         */
 
-        ArrayList<MovieItem> movieItems = new ArrayList<MovieItem>();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-        for(int i = 0; i < 10; i++){
 
-            MovieItem m = new MovieItem("Original Title", "overview", "Path " + i , "2018/10/12", 5.0);
+        List<MovieItem> movieItems = new ArrayList<MovieItem>();
+        final String responseFromHttpUrl;
 
-            movieItems.add(m);
+        URL url = NetworkUtilities.buildDataUrl(getText(R.string.api_key).toString(), SORT_POPULAR);
+
+        try {
+            responseFromHttpUrl = NetworkUtilities.getResponseFromHttpUrl(url);
+            movieItems = JsonUtils.parseMovieJson(responseFromHttpUrl);
+            Log.d(TAG, responseFromHttpUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Error getting response from network");
+            Toast.makeText(this, "Error getting response from network.", Toast.LENGTH_SHORT).show();
+
 
         }
 
-        mMovieAdapter = new MovieAdapter(movieItems, this);
+
+        mMovieAdapter = new MovieAdapter(movieItems, this, this);
 
 
         mMovieItemList.setAdapter(mMovieAdapter);
@@ -95,18 +116,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort_most_popular) {
 
-            URL url = NetworkUtilities.buildPosterUrl("BNZadXqJSdt05SHLqgT0HuC5Gm.jpg");
+            //URL url = NetworkUtilities.buildPosterUrl("BNZadXqJSdt05SHLqgT0HuC5Gm.jpg");
 
 
-            url = NetworkUtilities.buildDataUrl(key, "popular");
+           // url = NetworkUtilities.buildDataUrl(key, SORT_POPULAR);
 
-            Log.d("", "onOptionsItemSelected: " + url);
+            //Log.d("", "onOptionsItemSelected: " + url);
             Toast.makeText(this, "most popular", Toast.LENGTH_SHORT).show();
 
             return true;
         }
-        if(id == R.id.action_sort_top_rated){
-            Toast.makeText(this, "top rated", Toast.LENGTH_SHORT).show();
+        if (id == R.id.action_sort_top_rated) {
+            Toast.makeText(this, SORT_TOP_RATED, Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -115,11 +136,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
 
     @Override
-    public void OnListItemClick(int clickedItemIndex) {
+    public void OnListItemClick(int clickedItemIndex, MovieItem movieItem) {
         Toast.makeText(this, " " + clickedItemIndex, Toast.LENGTH_SHORT).show();
 
         Intent myIntent = new Intent(this, DetailedActivity.class);
         myIntent.putExtra(DetailedActivity.EXTRA_INDEX, 1);
+        myIntent.putExtra("movieItem", movieItem);
         startActivity(myIntent);
 
 
