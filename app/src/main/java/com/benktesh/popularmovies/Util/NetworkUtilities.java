@@ -76,10 +76,12 @@ public class NetworkUtilities {
             if (hasInput) {
                 return scanner.next();
             } else {
+                scanner.close();
                 return null;
             }
         } finally {
             urlConnection.disconnect();
+
         }
     }
 
