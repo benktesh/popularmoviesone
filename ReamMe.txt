@@ -1,0 +1,7 @@
+Notes:
+Please replace api key in apiData.xml for key "api_key"
+
+Sources/References used during this project:
+
+- I used some logic from Grow With Google recycler view lessons ie. GreenAdapter.java that I had previously worked.
+- Code about network connection check was abstracted from stackoverflow post's answers. https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out
