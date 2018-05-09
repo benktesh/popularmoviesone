@@ -17,7 +17,7 @@ public class JsonUtils {
 
     private static final String TAG = JsonUtils.class.getSimpleName();
 
-    public static List<MovieItem> parseMovieJson(String json) {
+    public static ArrayList<MovieItem> parseMovieJson(String json) {
         try {
 
             MovieItem movie;
