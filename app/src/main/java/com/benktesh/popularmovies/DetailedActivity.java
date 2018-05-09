@@ -60,9 +60,17 @@ public class DetailedActivity extends AppCompatActivity {
 
     private void populateUI(MovieItem movieItem) {
         mOriginalTitle = (TextView) findViewById(R.id.tv_original_title);
-        mOriginalTitle.setText(movieItem.getOriginalTitle());
-
+        mOverview = (TextView) findViewById(R.id.tv_synopsis);
+        mReleaseDate = (TextView) findViewById(R.id.tv_release_date);
+        mVoteAverage = (TextView) findViewById(R.id.tv_user_rating);
         mPoster = (ImageView) findViewById(R.id.iv_movie_poster);
+
+        mOriginalTitle.setText(movieItem.getOriginalTitle());
+        mOverview.setText(movieItem.getOverview());
+        mReleaseDate.setText(movieItem.releaseDate);
+        mVoteAverage.setText(String.valueOf(movieItem.getVoteAverage()));
+
+
 
         String posterPathURL = NetworkUtilities.buildPosterUrl(movieItem.getPosterPath());
         try {

@@ -41,8 +41,8 @@ public class JsonUtils {
                         .optString("poster_path", "Not Available");
                 String release_date = movieJson.optString("release_date",
                         "Not Available");
-                String vote_count = movieJson.optString("vote_count", "Not Available");
-                movie = new MovieItem(original_title, overview, poster_path, release_date, Double.parseDouble(vote_count));
+                String vote_average = movieJson.optString("vote_average", "Not Available");
+                movie = new MovieItem(original_title, overview, poster_path, release_date, Double.parseDouble(vote_average));
                 items.add(movie);
 
             }
