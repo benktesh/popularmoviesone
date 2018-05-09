@@ -71,9 +71,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         URL url = NetworkUtilities.buildDataUrl(getText(R.string.api_key).toString(), SORT_POPULAR);
 
         try {
-            responseFromHttpUrl = NetworkUtilities.getResponseFromHttpUrl(url);
-            movieItems = JsonUtils.parseMovieJson(responseFromHttpUrl);
-            Log.d(TAG, responseFromHttpUrl);
+            responseFromHttpUrl = NetworkUtilities.getResponseFromHttpUrl(url,this);
+            if(responseFromHttpUrl == null)
+            {
+                Toast.makeText(this, "There is no internet and movies can't load at this time.", Toast.LENGTH_LONG).show();
+            }
+            else {
+                movieItems = JsonUtils.parseMovieJson(responseFromHttpUrl);
+                Log.d(TAG, responseFromHttpUrl);
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
             Log.e(TAG, "Error getting response from network");

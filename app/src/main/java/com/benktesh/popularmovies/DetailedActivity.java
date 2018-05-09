@@ -39,17 +39,12 @@ public class DetailedActivity extends AppCompatActivity {
 
         int position = intent.getIntExtra(EXTRA_INDEX, DEFAULT_INDEX);
         Bundle data = getIntent().getExtras();
-        MovieItem movieItem = data.getParcelable("movieItem");
-
-        Log.d(TAG, "Got the position data" + position);
-
-        if (position == DEFAULT_INDEX) {
-            // EXTRA_POSITION not found in intent
-            closeOnError("Could not get the position data");
+        if(data == null)
+        {
+            closeOnError("Movie data is not available.");
             return;
         }
-
-
+        MovieItem movieItem = data.getParcelable("movieItem");
         if (movieItem == null) {
             closeOnError("Movie is null");
             return;

@@ -1,5 +1,8 @@
 package com.benktesh.popularmovies.Util;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -65,7 +68,12 @@ public class NetworkUtilities {
      * @return The contents of the HTTP response.
      * @throws IOException Related to network and stream reading
      */
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
+    public static String getResponseFromHttpUrl(URL url, Context context) throws IOException {
+        if(!isOnline(context))
+        {
+            Log.e(TAG, "There is no network connection");
+            return null;
+        }
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
@@ -85,5 +93,18 @@ public class NetworkUtilities {
 
         }
     }
+    /**
+     * This funciton checks network connection. This code was derived from
+     * https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out
+     **/
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+
+
 
 }
