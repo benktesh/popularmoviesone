@@ -2,4 +2,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="padding">16dp</dimen>
     <dimen name="textsize_default">42sp</dimen>
+    <dimen name="RecycleView_top_padding">60dp</dimen>
 </resources>

@@ -6,4 +6,7 @@
     <string name="fontfamily">monospace</string>
     <string name="detail_error_message">Movie data could not be found.</string>
     <string name="movie_poster_content">Place holder for image content</string>
+    <string name="user_rating">User Rating</string>
+    <string name="release_date">Release Date</string>
+    <string name="synopsis_label">Synopsis</string>
 </resources>

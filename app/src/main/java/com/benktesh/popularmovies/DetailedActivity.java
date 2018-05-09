@@ -1,10 +1,12 @@
 package com.benktesh.popularmovies;
 
 import android.content.Intent;
+import android.media.Rating;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +25,7 @@ public class DetailedActivity extends AppCompatActivity {
     TextView mOverview;
     ImageView mPoster;
     TextView mReleaseDate;
-    TextView mVoteAverage;
+    RatingBar mVoteAverage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +64,15 @@ public class DetailedActivity extends AppCompatActivity {
         mOriginalTitle = (TextView) findViewById(R.id.tv_original_title);
         mOverview = (TextView) findViewById(R.id.tv_synopsis);
         mReleaseDate = (TextView) findViewById(R.id.tv_release_date);
-        mVoteAverage = (TextView) findViewById(R.id.tv_user_rating);
+        mVoteAverage = (RatingBar) findViewById(R.id.rbv_user_rating);
         mPoster = (ImageView) findViewById(R.id.iv_movie_poster);
 
         mOriginalTitle.setText(movieItem.getOriginalTitle());
         mOverview.setText(movieItem.getOverview());
         mReleaseDate.setText(movieItem.releaseDate);
-        mVoteAverage.setText(String.valueOf(movieItem.getVoteAverage()));
+        mVoteAverage.setRating((float) movieItem.getVoteAverage());
+
+
 
 
 
