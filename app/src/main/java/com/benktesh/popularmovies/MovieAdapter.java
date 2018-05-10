@@ -31,8 +31,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         if (movieItemList == null) {
             mMovieItemList = new ArrayList<>();
+        } else {
+            mMovieItemList = movieItemList;
         }
-        mMovieItemList = movieItemList;
         mOnClickListener = listener;
         mContext = context;
     }
