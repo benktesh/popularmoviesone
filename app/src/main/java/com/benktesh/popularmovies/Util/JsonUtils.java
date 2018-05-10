@@ -1,16 +1,13 @@
 package com.benktesh.popularmovies.Util;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.benktesh.popularmovies.Model.MovieItem;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class JsonUtils {

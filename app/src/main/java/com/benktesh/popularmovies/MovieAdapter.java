@@ -7,56 +7,48 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.benktesh.popularmovies.Model.MovieItem;
 import com.benktesh.popularmovies.Util.NetworkUtilities;
 import com.example.benktesh.popularmovies.R;
 import com.squareup.picasso.Picasso;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Benktesh on 5/2/18.
- */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private static final String TAG = MovieAdapter.class.getSimpleName();
     private List<MovieItem> mMovieItemList;
-    private MovieItem movieItem;
-    private Context mContext;
+    private final Context mContext;
 
     final private ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
-        void OnListItemClick(int clickedItemIndex, MovieItem movieItem);
+        void OnListItemClick(MovieItem movieItem);
     }
 
     public MovieAdapter(List<MovieItem> movieItemList, ListItemClickListener listener, Context context) {
 
         if (movieItemList == null) {
-            mMovieItemList = new ArrayList<MovieItem>();
+            mMovieItemList = new ArrayList<>();
         }
         mMovieItemList = movieItemList;
         mOnClickListener = listener;
         mContext = context;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         int layoutIdForListItem = R.layout.movie_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
-        View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
-        MovieViewHolder viewHolder = new MovieViewHolder(view);
-        return viewHolder;
+        View view = inflater.inflate(layoutIdForListItem, parent, false);
+        return new MovieViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
+    public void onBindViewHolder(@SuppressWarnings("NullableProblems") MovieViewHolder holder, int position) {
         holder.bind(position);
     }
 
@@ -72,13 +64,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         public MovieViewHolder(View itemView) {
             super(itemView);
 
-            listMovieItemView = (ImageView) itemView.findViewById(R.id.iv_item_poster);
+            listMovieItemView = itemView.findViewById(R.id.iv_item_poster);
             itemView.setOnClickListener(this);
         }
 
         void bind(int listIndex) {
-            movieItem = mMovieItemList.get(listIndex);
-            listMovieItemView = (ImageView) itemView.findViewById(R.id.iv_item_poster);
+            MovieItem movieItem = mMovieItemList.get(listIndex);
+            listMovieItemView = itemView.findViewById(R.id.iv_item_poster);
             String posterPathURL = NetworkUtilities.buildPosterUrl(movieItem.getPosterPath());
             Log.v(TAG, "Poster URL: " + posterPathURL);
             try {
@@ -95,7 +87,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
-            mOnClickListener.OnListItemClick(clickedPosition, mMovieItemList.get(clickedPosition));
+            mOnClickListener.OnListItemClick(mMovieItemList.get(clickedPosition));
             Log.v(TAG, "Done with OnClick");
         }
     }

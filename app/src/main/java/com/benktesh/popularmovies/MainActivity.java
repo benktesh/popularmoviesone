@@ -2,17 +2,12 @@ package com.benktesh.popularmovies;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.os.StrictMode;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -25,19 +20,16 @@ import com.benktesh.popularmovies.Util.NetworkUtilities;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener {
 
-    private static final int NUM_LIST_ITEMS = 100;
-    private MovieAdapter mMovieAdapter;
     private RecyclerView mMovieItemList;
-    private static String SORT_POPULAR = "popular";
-    private static String SORT_TOP_RATED = "top_rated";
+    private static final String SORT_POPULAR = "popular";
+    private static final String SORT_TOP_RATED = "top_rated";
     private static String currentSort = SORT_POPULAR;
-    private static String MOVIE_LIST_KEY = "MOVIE_LIST_KEY";
-    private static String CURRENT_SORT_KEY = "CURRENT_SORT_KEY";
-    ArrayList<MovieItem> movieItems;
+    private static final String MOVIE_LIST_KEY = "MOVIE_LIST_KEY";
+    private static final String CURRENT_SORT_KEY = "CURRENT_SORT_KEY";
+    private ArrayList<MovieItem> movieItems;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -47,11 +39,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //get reference to recyclerview
-        mMovieItemList = (RecyclerView) findViewById(R.id.rv_movies);
+        mMovieItemList = findViewById(R.id.rv_movies);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mMovieItemList.setLayoutManager(layoutManager);
         mMovieItemList.setHasFixedSize(true);
@@ -77,12 +69,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         if (movieItems == null || movieItems.isEmpty()) {
             GetMovieData();
         }
-        mMovieAdapter = new MovieAdapter(movieItems, this, this);
+        MovieAdapter mMovieAdapter = new MovieAdapter(movieItems, this, this);
         mMovieItemList.setAdapter(mMovieAdapter);
     }
 
     /**
-     * This method calls the network and popualtes the movieitems based on currentSort variable.
+     * This method calls the network and populates the movieitems based on currentSort variable.
      */
     private void GetMovieData() {
         final String responseFromHttpUrl;
@@ -113,20 +105,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     /**
      * Depending on the item selected, this method sets the current sort and clears the movie item list.
      *
-     * @param item
-     * @return
+     * @param item - the menu
+     * @return boolean true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        String key = (String) getResources().getText(R.string.api_key);
-        if (id == R.id.action_sort_most_popular && currentSort != SORT_POPULAR) {
+        if (id == R.id.action_sort_most_popular && !currentSort.equals(SORT_POPULAR)) {
             movieItems.clear();
             currentSort = SORT_POPULAR;
             LoadView();
             return true;
         }
-        if (id == R.id.action_sort_top_rated && currentSort != SORT_TOP_RATED) {
+        if (id == R.id.action_sort_top_rated && !currentSort.equals(SORT_TOP_RATED)) {
             movieItems.clear();
             currentSort = SORT_TOP_RATED;
             LoadView();
@@ -138,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (currentSort == SORT_TOP_RATED) {
+        if (currentSort.equals(SORT_TOP_RATED)) {
             menu.findItem(R.id.action_sort_top_rated).setChecked(true);
 
         } else {
@@ -148,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     }
 
     @Override
-    public void OnListItemClick(int clickedItemIndex, MovieItem movieItem) {
+    public void OnListItemClick(MovieItem movieItem) {
         // Toast.makeText(this, " " + clickedItemIndex, Toast.LENGTH_SHORT).show();
         Intent myIntent = new Intent(this, DetailedActivity.class);
         myIntent.putExtra(DetailedActivity.EXTRA_INDEX, 1);
@@ -159,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     /**
      * Upon restore the movie items and current sort will be applied.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState - saved bundle
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -172,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     /**
      * We will store the movieItems and Current Sort into the bundle
      *
-     * @param outState
+     * @param outState - instance of bundle to save
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {

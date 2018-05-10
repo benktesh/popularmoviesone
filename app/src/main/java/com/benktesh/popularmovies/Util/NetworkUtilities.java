@@ -22,12 +22,10 @@ import java.util.Scanner;
 public class NetworkUtilities {
     private static final String TAG = NetworkUtilities.class.getSimpleName();
 
-    final static String BASE_URL = "http://image.tmdb.org/t/p/";
+    private final static String BASE_URL = "http://image.tmdb.org/t/p/";
 
-    final static String PARAM_QUERY = "q";
-
-    //widht of the poster
-    final static String WIDTH = "w185";
+    //The width of the poster
+    private final static String WIDTH = "w185";
 
     /**
      * Builds the URL to fetch poster image.
@@ -93,13 +91,13 @@ public class NetworkUtilities {
     }
 
     /**
-     * This funciton checks network connection. This code was derived from
+     * This method checks network connection. This code was derived from
      * https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out
      **/
-    public static boolean isOnline(Context context) {
+    private static boolean isOnline(Context context) {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        NetworkInfo netInfo = cm != null ? cm.getActiveNetworkInfo() : null;
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

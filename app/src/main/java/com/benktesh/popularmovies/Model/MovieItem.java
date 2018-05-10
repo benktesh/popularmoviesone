@@ -3,15 +3,12 @@ package com.benktesh.popularmovies.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Benktesh on 5/4/18.
- */
 public class MovieItem implements Parcelable {
-    public String originalTitle;
-    public String overview;
-    public String posterPath;
-    public String releaseDate;
-    public double voteAverage;
+    private final String originalTitle;
+    private final String overview;
+    private final String posterPath;
+    private final String releaseDate;
+    private final double voteAverage;
 
     public MovieItem(String originalTitle, String overview,
                      String posterPath, String releaseDate, double voteAverage) {
@@ -22,10 +19,7 @@ public class MovieItem implements Parcelable {
         this.voteAverage = voteAverage;
     }
 
-    public MovieItem() {
-    }
-
-    protected MovieItem(Parcel in) {
+    private MovieItem(Parcel in) {
         originalTitle = in.readString();
         overview = in.readString();
         posterPath = in.readString();
@@ -33,6 +27,7 @@ public class MovieItem implements Parcelable {
         voteAverage = in.readDouble();
     }
 
+    @SuppressWarnings("unused")
     public static final Creator<MovieItem> CREATOR = new Creator<MovieItem>() {
         @Override
         public MovieItem createFromParcel(Parcel in) {
@@ -49,40 +44,20 @@ public class MovieItem implements Parcelable {
         return overview;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
     public String getOriginalTitle() {
         return originalTitle;
-    }
-
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
     }
 
     public String getPosterPath() {
         return posterPath;
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
-
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
     public double getVoteAverage() {
         return voteAverage;
-    }
-
-    public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
     }
 
     @Override
