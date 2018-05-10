@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/movie_poster_content"
+            android:paddingBottom="@dimen/padding_2x"
             android:scaleType="centerCrop" />
 
         <LinearLayout
@@ -69,7 +70,8 @@
                 android:id="@+id/tv_synopsis"
                 style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
