@@ -7,15 +7,6 @@ import android.os.Parcelable;
  * Created by Benktesh on 5/4/18.
  */
 public class MovieItem implements Parcelable {
-/* We need followoing attributes
-    original title
-    movie poster image thumbnail
-    A plot synopsis (called overview in the api)
-    user rating (called vote_average in the api)
-    release date
-
-    */
-
     public String originalTitle;
     public String overview;
     public String posterPath;
@@ -23,15 +14,16 @@ public class MovieItem implements Parcelable {
     public double voteAverage;
 
     public MovieItem(String originalTitle, String overview,
-                     String posterPath, String releaseDate, double voteAverage){
-    this.originalTitle = originalTitle;
-    this.overview = overview;
-    this.posterPath = posterPath;
-    this.releaseDate = releaseDate;
-    this.voteAverage = voteAverage;
+                     String posterPath, String releaseDate, double voteAverage) {
+        this.originalTitle = originalTitle;
+        this.overview = overview;
+        this.posterPath = posterPath;
+        this.releaseDate = releaseDate;
+        this.voteAverage = voteAverage;
     }
 
-    public MovieItem() {}
+    public MovieItem() {
+    }
 
     protected MovieItem(Parcel in) {
         originalTitle = in.readString();

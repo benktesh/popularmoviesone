@@ -69,8 +69,7 @@ public class NetworkUtilities {
      * @throws IOException Related to network and stream reading
      */
     public static String getResponseFromHttpUrl(URL url, Context context) throws IOException {
-        if(!isOnline(context))
-        {
+        if (!isOnline(context)) {
             Log.e(TAG, "There is no network connection");
             return null;
         }
@@ -90,9 +89,9 @@ public class NetworkUtilities {
             }
         } finally {
             urlConnection.disconnect();
-
         }
     }
+
     /**
      * This funciton checks network connection. This code was derived from
      * https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out
@@ -103,8 +102,4 @@ public class NetworkUtilities {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
-
-
-
-
 }

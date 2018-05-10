@@ -1,18 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.benktesh.popularmovies.com.benktesh.popularmovies.MainActivity">
-    <item
-        android:id="@+id/action_sort_most_popular"
-        android:orderInCategory="100"
-        android:title="@string/sort_most_popular"
-        app:showAsAction="never" />
+    tools:context="com.benktesh.popularmovies.MainActivity">
+    <group
+        android:id="@+id/group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_sort_most_popular"
+            android:orderInCategory="100"
+            android:title="@string/sort_most_popular"
+            app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_sort_top_rated"
-        android:orderInCategory="100"
-        android:title="@string/sort_top_rated"
-        app:showAsAction="never" />
-
-
+        <item
+            android:id="@+id/action_sort_top_rated"
+            android:orderInCategory="100"
+            android:title="@string/sort_top_rated"
+            app:showAsAction="never" />
+    </group>
 </menu>

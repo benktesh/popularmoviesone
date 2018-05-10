@@ -19,13 +19,14 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_movies"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/RecycleView_top_padding"
         android:layout_gravity="center"
         android:clipToPadding="false"
-        android:id="@+id/rv_movies">
+        android:paddingTop="@dimen/RecycleView_top_padding">
 
     </android.support.v7.widget.RecyclerView>
 

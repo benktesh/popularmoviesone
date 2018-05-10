@@ -46,42 +46,11 @@ public class JsonUtils {
                 items.add(movie);
 
             }
-
             return items;
+
         } catch (Exception ex) {
             Log.e(TAG + "parseMovieJson", "Could not parse json " + json);
             return null;
         }
-    }
-
-
-    /**
-     * This method parses a json string to a list of string
-     *
-     * @param - String stringArray representation of json array
-     * @return List<String> list of string
-     * @throws JSONException
-     */
-    @NonNull
-    private static List<String> getStringsFromArray(String stringArray) {
-
-        List<String> list = new ArrayList<String>();
-        try {
-
-
-            JSONArray jsonarray = null;
-
-            jsonarray = new JSONArray(stringArray);
-            for (int i = 0; i < jsonarray.length(); i++) {
-                list.add(jsonarray.optString(i, "Not Found"));
-            }
-            return list;
-        } catch (Exception ex)
-
-        {
-            Log.e(TAG + "getStringFromArray" + stringArray, ex.toString());
-
-        }
-        return list;
     }
 }

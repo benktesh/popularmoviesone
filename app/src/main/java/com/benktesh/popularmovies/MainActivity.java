@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
                 Toast.makeText(this, "There is no internet and movies can't load at this time.", Toast.LENGTH_LONG).show();
             } else {
                 movieItems = JsonUtils.parseMovieJson(responseFromHttpUrl);
-                Log.d(TAG, responseFromHttpUrl);
+                Log.v(TAG, responseFromHttpUrl);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,18 +112,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
     /**
      * Depending on the item selected, this method sets the current sort and clears the movie item list.
+     *
      * @param item
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         String key = (String) getResources().getText(R.string.api_key);
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort_most_popular && currentSort != SORT_POPULAR) {
             movieItems.clear();
             currentSort = SORT_POPULAR;
@@ -136,24 +132,33 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             LoadView();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (currentSort == SORT_TOP_RATED) {
+            menu.findItem(R.id.action_sort_top_rated).setChecked(true);
+
+        } else {
+            menu.findItem(R.id.action_sort_most_popular).setChecked(true);
+        }
+        return true;
+    }
 
     @Override
     public void OnListItemClick(int clickedItemIndex, MovieItem movieItem) {
-       // Toast.makeText(this, " " + clickedItemIndex, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, " " + clickedItemIndex, Toast.LENGTH_SHORT).show();
         Intent myIntent = new Intent(this, DetailedActivity.class);
         myIntent.putExtra(DetailedActivity.EXTRA_INDEX, 1);
         myIntent.putExtra("movieItem", movieItem);
         startActivity(myIntent);
-
-
     }
 
     /**
      * Upon restore the movie items and current sort will be applied.
+     *
      * @param savedInstanceState
      */
     @Override
@@ -161,18 +166,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         super.onRestoreInstanceState(savedInstanceState);
         movieItems = savedInstanceState.getParcelableArrayList(MOVIE_LIST_KEY);
         currentSort = savedInstanceState.getString(CURRENT_SORT_KEY);
-        Log.d(TAG, "Restored movies from bundle");
+        Log.v(TAG, "Restored movies from bundle");
     }
 
     /**
      * We will store the movieItems and Current Sort into the bundle
+     *
      * @param outState
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(MOVIE_LIST_KEY, movieItems);
         outState.putString(CURRENT_SORT_KEY, currentSort);
-        super.onSaveInstanceState(outState);
-        Log.d(TAG, "Saving the bundle");
+        Log.v(TAG, "Saving the bundle");
     }
 }

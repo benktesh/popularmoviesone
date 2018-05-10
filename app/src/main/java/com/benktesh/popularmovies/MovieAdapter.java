@@ -24,27 +24,22 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private static final String TAG = MovieAdapter.class.getSimpleName();
-    private static int viewHolderCount;
     private List<MovieItem> mMovieItemList;
     private MovieItem movieItem;
     private Context mContext;
 
     final private ListItemClickListener mOnClickListener;
 
-
     public interface ListItemClickListener {
         void OnListItemClick(int clickedItemIndex, MovieItem movieItem);
     }
 
-
     public MovieAdapter(List<MovieItem> movieItemList, ListItemClickListener listener, Context context) {
 
-        if(movieItemList == null)
-        {
+        if (movieItemList == null) {
             mMovieItemList = new ArrayList<MovieItem>();
         }
         mMovieItemList = movieItemList;
-        viewHolderCount = 0;
         mOnClickListener = listener;
         mContext = context;
     }
@@ -72,9 +67,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        //TextView listMovieItemView;
         ImageView listMovieItemView;
-
 
         public MovieViewHolder(View itemView) {
             super(itemView);
@@ -84,35 +77,26 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         }
 
         void bind(int listIndex) {
-
             movieItem = mMovieItemList.get(listIndex);
-
-            //listMovieItemView.setText(String.valueOf(movieItem.getOriginalTitle()));
             listMovieItemView = (ImageView) itemView.findViewById(R.id.iv_item_poster);
-
             String posterPathURL = NetworkUtilities.buildPosterUrl(movieItem.getPosterPath());
-            Log.d(TAG, "Poster URL: " + posterPathURL);
+            Log.v(TAG, "Poster URL: " + posterPathURL);
             try {
-
-
                 Picasso.with(mContext)
                         .load(posterPathURL)
                         .placeholder(R.mipmap.ic_launcher)
                         .error(R.mipmap.ic_launcher)
                         .into(listMovieItemView);
+            } catch (Exception ex) {
+                Log.e(TAG, ex.getMessage());
             }
-            catch (Exception ex) {
-                Log.d(TAG, ex.getMessage());
-            }
-
         }
 
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
             mOnClickListener.OnListItemClick(clickedPosition, mMovieItemList.get(clickedPosition));
-            Log.d(TAG, "Done with OnClick");
+            Log.v(TAG, "Done with OnClick");
         }
     }
-
 }
