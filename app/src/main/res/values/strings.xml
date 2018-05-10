@@ -7,4 +7,6 @@
     <string name="release_date">Release Date</string>
     <string name="synopsis_label">Synopsis</string>
     <string name="post_of_the_movie">Post of the movie</string>
+    <string name="Network_Error_Prompt">There is no internet or api did not respond.</string>
+    <string name="Error_MovieData_Not_Found">Movie data is not available.</string>
 </resources>

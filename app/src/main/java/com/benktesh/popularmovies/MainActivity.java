@@ -1,6 +1,8 @@
 package com.benktesh.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     private static final String MOVIE_LIST_KEY = "MOVIE_LIST_KEY";
     private static final String CURRENT_SORT_KEY = "CURRENT_SORT_KEY";
     private ArrayList<MovieItem> movieItems;
+    private MovieAdapter mMovieAdapter;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -48,8 +51,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         mMovieItemList.setLayoutManager(layoutManager);
         mMovieItemList.setHasFixedSize(true);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+
+        mMovieAdapter = new MovieAdapter(movieItems, this, this);
+        mMovieItemList.setAdapter(mMovieAdapter);
+
 
         //if saved instance is not null and contains key for movie list, we will restore that.
         if (savedInstanceState != null && savedInstanceState.containsKey(MOVIE_LIST_KEY)) {
@@ -67,31 +72,41 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
      */
     private void LoadView() {
         if (movieItems == null || movieItems.isEmpty()) {
-            GetMovieData();
+            Log.d(TAG, "Getting Data from Network");
+            new NetworkQueryTask().execute(NetworkUtilities.buildDataUrl(getText(R.string.api_key).toString(), currentSort));
+        } else {
+            mMovieAdapter.setMovieData(movieItems);
         }
-        MovieAdapter mMovieAdapter = new MovieAdapter(movieItems, this, this);
-        mMovieItemList.setAdapter(mMovieAdapter);
     }
 
-    /**
-     * This method calls the network and populates the movieitems based on currentSort variable.
+    /*
+    This is an async task to fetch data from network and new data is applied to adapter.
+    Also makes a long toast message when fails to retrieve information from the network
      */
-    private void GetMovieData() {
-        final String responseFromHttpUrl;
-        URL url = NetworkUtilities.buildDataUrl(getText(R.string.api_key).toString(), currentSort);
+    public class NetworkQueryTask extends AsyncTask<URL, Void, String> {
 
-        try {
-            responseFromHttpUrl = NetworkUtilities.getResponseFromHttpUrl(url, this);
-            if (responseFromHttpUrl == null) {
-                Toast.makeText(this, "There is no internet and movies can't load at this time.", Toast.LENGTH_LONG).show();
-            } else {
-                movieItems = JsonUtils.parseMovieJson(responseFromHttpUrl);
-                Log.v(TAG, responseFromHttpUrl);
+        @Override
+        protected String doInBackground(URL... params) {
+            URL searchUrl = params[0];
+            String searchResults = null;
+            try {
+                searchResults = NetworkUtilities.getResponseFromHttpUrl(searchUrl, getApplicationContext());
+
+            } catch (IOException e) {
+                Log.e(TAG, e.toString());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG, "Error getting response from network");
-            Toast.makeText(this, "Error getting response from network.", Toast.LENGTH_SHORT).show();
+            return searchResults;
+        }
+
+        @Override
+        protected void onPostExecute(String searchResults) {
+            if (searchResults != null && !searchResults.equals("")) {
+                movieItems = JsonUtils.parseMovieJson(searchResults);
+                mMovieAdapter.setMovieData(movieItems);
+
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.Network_Error_Prompt, Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -112,18 +127,24 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_sort_most_popular && !currentSort.equals(SORT_POPULAR)) {
-            movieItems.clear();
+            ClearMovieItemList();
             currentSort = SORT_POPULAR;
             LoadView();
             return true;
         }
         if (id == R.id.action_sort_top_rated && !currentSort.equals(SORT_TOP_RATED)) {
-            movieItems.clear();
+            ClearMovieItemList();
             currentSort = SORT_TOP_RATED;
             LoadView();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void ClearMovieItemList() {
+        if (movieItems != null) {
+            movieItems.clear();
+        }
     }
 
     @Override

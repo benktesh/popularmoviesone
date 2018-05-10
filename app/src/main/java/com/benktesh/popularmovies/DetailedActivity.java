@@ -30,14 +30,13 @@ public class DetailedActivity extends AppCompatActivity {
         }
 
         Bundle data = getIntent().getExtras();
-        if(data == null)
-        {
-            closeOnError("Movie data is not available.");
+        if (data == null) {
+            closeOnError(getString(R.string.Error_MovieData_Not_Found));
             return;
         }
         MovieItem movieItem = data.getParcelable("movieItem");
         if (movieItem == null) {
-            closeOnError("Movie is null");
+            closeOnError(getString(R.string.Error_MovieData_Not_Found));
             return;
         }
 
