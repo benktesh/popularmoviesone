@@ -2,6 +2,9 @@ Notes:
 - Please replace api key in apiData.xml for key "api_key"
 - Screens.gif shows some shots of the app on emulator
 
+Review comments:
+- Set the connection time out to 10 seconds and read time out to 20 seconds
+
 Sources/References used during this project:
 - I used some logic from Grow With Google recycler view lessons i.e. GreenAdapter.java that I had previously worked.
 - Code about network connection check was abstracted from stackoverflow post's answers. https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out

@@ -72,6 +72,8 @@ public class NetworkUtilities {
             return null;
         }
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setConnectTimeout(10000); //sets connection timeout to 10 seconds
+        urlConnection.setReadTimeout(20000); //sets read time out to 20 seconds
         try {
             InputStream in = urlConnection.getInputStream();
 
