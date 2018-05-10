@@ -1,5 +1,6 @@
 Notes:
-Please replace api key in apiData.xml for key "api_key"
+- Please replace api key in apiData.xml for key "api_key"
+- Screens.gif shows some shots of the app on emulator
 
 Sources/References used during this project:
 - I used some logic from Grow With Google recycler view lessons i.e. GreenAdapter.java that I had previously worked.
