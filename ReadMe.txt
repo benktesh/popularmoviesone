@@ -2,8 +2,15 @@ Notes:
 - Please replace api key in apiData.xml for key "api_key"
 - Screens.gif shows some shots of the app on emulator
 
+
 Review comments:
+- The reviews and suggestion were helpful. I am going to take that class in kotlin
 - Set the connection time out to 10 seconds and read time out to 20 seconds
+- Make network connection via async task
+- Used databinding for detailed activity
+- Handled app crashing while starting up wwhen there was no-network event caused by empty item list.
+- Added some design time tools (text and itemcount)
+- Correctly named this file to 'ReadMe' from 'ReamMe' :)
 
 Sources/References used during this project:
 - I used some logic from Grow With Google recycler view lessons i.e. GreenAdapter.java that I had previously worked.

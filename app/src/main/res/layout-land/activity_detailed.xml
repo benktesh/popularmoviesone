@@ -30,6 +30,7 @@
 
                 <TextView
                     android:id="@+id/tv_original_title"
+                    tools:text="Fifty Shades Freed"
                     style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -56,6 +57,7 @@
 
                 <TextView
                     android:id="@+id/tv_release_date"
+                    tools:text="10/10/2010"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/padding" />
@@ -69,6 +71,7 @@
 
                 <TextView
                     android:id="@+id/tv_synopsis"
+                    tools:text="Fifty Shades Freed is test synopsis"
                     style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

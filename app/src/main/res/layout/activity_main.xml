@@ -26,6 +26,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:clipToPadding="false"
+        tools:itemCount="10"
         android:paddingTop="@dimen/RecycleView_top_padding">
 
     </android.support.v7.widget.RecyclerView>
