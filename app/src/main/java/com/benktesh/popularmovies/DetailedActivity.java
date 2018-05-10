@@ -1,6 +1,7 @@
 package com.benktesh.popularmovies;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,17 +13,19 @@ import android.widget.Toast;
 import com.benktesh.popularmovies.Model.MovieItem;
 import com.benktesh.popularmovies.Util.NetworkUtilities;
 import com.example.benktesh.popularmovies.R;
+import com.example.benktesh.popularmovies.databinding.ActivityDetailedBinding;
 import com.squareup.picasso.Picasso;
 
 public class DetailedActivity extends AppCompatActivity {
 
     private static final String TAG = DetailedActivity.class.getSimpleName();
     public static final String EXTRA_INDEX = "extra_index";
+    ActivityDetailedBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailed);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -49,16 +52,11 @@ public class DetailedActivity extends AppCompatActivity {
     }
 
     private void populateUI(MovieItem movieItem) {
-        TextView mOriginalTitle = findViewById(R.id.tv_original_title);
-        TextView mOverview = findViewById(R.id.tv_synopsis);
-        TextView mReleaseDate = findViewById(R.id.tv_release_date);
-        RatingBar mVoteAverage = findViewById(R.id.rbv_user_rating);
-        ImageView mPoster = findViewById(R.id.iv_movie_poster);
 
-        mOriginalTitle.setText(movieItem.getOriginalTitle());
-        mOverview.setText(movieItem.getOverview());
-        mReleaseDate.setText(movieItem.getReleaseDate());
-        mVoteAverage.setRating((float) movieItem.getVoteAverage());
+        mBinding.tvOriginalTitle.setText(movieItem.getOriginalTitle());
+        mBinding.tvSynopsis.setText(movieItem.getOverview());
+        mBinding.tvReleaseDate.setText(movieItem.getReleaseDate());
+        mBinding.rbvUserRating.setRating((float) movieItem.getVoteAverage());
 
         String posterPathURL = NetworkUtilities.buildPosterUrl(movieItem.getPosterPath());
         try {
@@ -66,7 +64,7 @@ public class DetailedActivity extends AppCompatActivity {
                     .load(posterPathURL)
                     .placeholder(R.mipmap.ic_launcher)
                     .error(R.mipmap.ic_launcher)
-                    .into(mPoster);
+                    .into(mBinding.ivMoviePoster);
         } catch (Exception ex) {
             Log.d(TAG, ex.getMessage());
         }
